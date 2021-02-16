@@ -14,21 +14,25 @@ class HostGroup extends Model
         'name', 'description', 'dc_id',
     ];
 
-    public function dc() {
+    public function dc()
+    {
         return $this->belongsTo('App\DC', 'dc_id');
     }
 
-    public function ips() {
+    public function ips()
+    {
         return $this->hasMany('App\IP', 'hostgroup_id');
     }
 
-    public function fullname() {
+    public function fullname()
+    {
         return strtolower($this->dc->name)."_".$this->name;
     }
 
-    public function remove() {
+    public function remove()
+    {
         // Delete host groups
-        foreach($this->ips as $ip) {
+        foreach ($this->ips as $ip) {
             $ip->remove();
         }
         $this->dc->manageHostGroup($this->fullname(), "DELETE"); // Delete from FNM
@@ -36,19 +40,21 @@ class HostGroup extends Model
         $this->delete();
     }
 
-    public function meta() {
+    public function meta()
+    {
         $fullname = $this->fullname();
         $json = $this->dc->call("hostgroup/$fullname", 'GET');
 
-        if(!$json['success']) {
+        if (!$json['success']) {
             return false;
         }
 
         return $json['values'][0];
     }
 
-    public function setDescription($desc) {
-        if(is_null($desc) || empty($desc)) {
+    public function setDescription($desc)
+    {
+        if (is_null($desc) || empty($desc)) {
             $desc = "-";
         }
 
@@ -59,7 +65,8 @@ class HostGroup extends Model
         return $json;
     }
 
-    public function setThresholds($thresholds) {
+    public function setThresholds($thresholds)
+    {
         $res = array();
 
         foreach ($thresholds as $key => $value) {
@@ -76,15 +83,16 @@ class HostGroup extends Model
         return collect($res);
     }
 
-    public function manageIP($ip = null, $action = "PUT", $commit = true) {
-        if(is_null($ip) || empty($ip)) {
+    public function manageIP($ip = null, $action = "PUT", $commit = true)
+    {
+        if (is_null($ip) || empty($ip)) {
             return false;
         }
 
         $fullname = $this->fullname();
         $ip = urlencode($ip);
         $json = $this->dc->call("hostgroup/$fullname/networks/$ip", $action);
-        if($commit) {
+        if ($commit) {
             $this->dc->commit();
         }
         return $json;

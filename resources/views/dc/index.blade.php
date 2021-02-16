@@ -13,7 +13,7 @@ DC Management
             <h2 class="title">DC Management</h2>
         </div>
         <div class="col-md-6 text-right">
-            @if(Auth::user()->admin)<a href="{{ route('dc.create') }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp; Add DC</a>@endif
+            @if (Auth::user()->admin)<a href="{{ route('dc.create') }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp; Add DC</a>@endif
         </div>
     </div>
 
@@ -41,10 +41,10 @@ DC Management
                     </tr>
                 </thead>
                 <tbody>
-                    @if(count($dcs) == 0)
+                    @if (count($dcs) == 0)
                     <tr><td colspan="6">No DCs configured. &nbsp; <a href="{{ route('dc.create') }}">Add one?</a></td></tr>
                     @else
-                        @foreach($dcs as $dc)
+                        @foreach ($dcs as $dc)
                             <tr>
                                 <td><strong><a href="{{ route('dc.show', [$dc]) }}">{{ $dc->id }}</a></strong></td>
                                 <td>{{ $dc->name }}</td>
@@ -61,7 +61,7 @@ DC Management
                                     @if ($dc->active && $dc->online() === 1)
                                         <i class="fa fa-check text-success" aria-hidden="true"></i>
                                         <span class="hidden">active</span>
-                                    @elseif($dc->active && $dc->online() === 0)
+                                    @elseif ($dc->active && $dc->online() === 0)
                                         <i class="fa fa-times text-danger" aria-hidden="true"></i>
                                     @else
                                         <i class="fa fa-question text-info" aria-hidden="true" data-toggle="tooltip" data-placement="right" title="API has not been polled yet, or this DC is disabled."></i>
@@ -76,7 +76,7 @@ DC Management
                                 </td>
                                 <td class="text-right">
                                     <a href="{{ route('dc.show', [$dc]) }}" class="btn btn-xs btn-default"><i class="fa fa-cogs" aria-hidden="true"></i> &nbsp;Manage DC</a> &nbsp;
-                                    @if(Auth::user()->admin)<a href="{{ route('dc.edit', [$dc]) }}" class="btn btn-xs btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp;Edit DC</a>@endif
+                                    @if (Auth::user()->admin)<a href="{{ route('dc.edit', [$dc]) }}" class="btn btn-xs btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp;Edit DC</a>@endif
                                 </td>
                             </tr>
                         @endforeach

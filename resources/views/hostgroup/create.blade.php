@@ -54,7 +54,7 @@ Create Host Group
                         <div class="form-group{{ $errors->has('dc_id') ? ' has-error' : '' }}">
                             <label for="dc_id" class="control-label">FastNetMon Instance:</label>
                             <select name="dc_id" id="dc_id" class="form-control" onchange="return changeDC();">
-                                @foreach(App\DC::where('active', 1)->get() as $dc)
+                                @foreach (App\DC::where('active', 1)->get() as $dc)
                                 <option value="{{ $dc->id }}" {{ old('dc_id')==$dc->id ? ' selected' : '' }}>{{ $dc->name }}</option>
                                 @endforeach
                             </select>

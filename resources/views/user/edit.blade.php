@@ -109,7 +109,7 @@ Create User
                 <button class="btn btn-primary" type="submit">Update User</button>
             </div>
             <div class="col-md-6 text-right">
-                @if($user->active)
+                @if ($user->active)
                 <p class="test-muted">User must be disabled before deleting.</p>
                 @else
                 <a href="{{ route('users.delete', $user) }}" class="btn btn-warning">Delete User</a>

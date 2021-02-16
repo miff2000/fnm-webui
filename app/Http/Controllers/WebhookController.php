@@ -17,24 +17,26 @@ use GuzzleHttp\Client;
 
 class WebhookController extends Controller
 {
-    public function __construct() {
+    public function __construct()
+    {
         //$this->middleware('guest');
     }
 
-    public function handle(Request $request) {
+    public function handle(Request $request)
+    {
         $dc = DC::where('allowed_ip', $request->ip())->first();
 
-        if($dc->count() < 1) {
+        if ($dc->count() < 1) {
             abort(401);
         }
 
         // Validate the UA
-        if($request->header('User-Agent') !== "FastNetMon") {
+        if ($request->header('User-Agent') !== "FastNetMon") {
             return abort(403);
         }
 
         // Check we received data
-        if(is_null($request->getContent()) || empty($request->getContent())) {
+        if (is_null($request->getContent()) || empty($request->getContent())) {
             return abort(400);
         }
 
@@ -51,7 +53,7 @@ class WebhookController extends Controller
 
         // Try to find the IP range for this host
         $range = $ip->find($data['ip'], $dc->id);
-        if($range === false or is_null($range)) {
+        if ($range === false or is_null($range)) {
             return abort(404, "Cannot find IP range");
         }
 
@@ -77,7 +79,7 @@ class WebhookController extends Controller
         $action->attack_total_incoming_flows       = $data['attack_details']['total_incoming_flows'];
         $action->attack_total_outgoing_flows       = $data['attack_details']['total_outgoing_flows'];
 
-        if(isset($data['packet_dump']) && !empty($data['packet_dump'])) {
+        if (isset($data['packet_dump']) && !empty($data['packet_dump'])) {
             $action->packet_dump = json_encode($data['packet_dump']);
         }
 
@@ -85,8 +87,8 @@ class WebhookController extends Controller
 
         $to = User::where(['active' => true, 'notify' => true])->pluck('email');
         $cc = env('ACTION_CC', false);
-        if($cc !== false) {
-            $cc = explode(",",$cc);
+        if ($cc !== false) {
+            $cc = explode(",", $cc);
             Mail::to($to)->cc($cc)->send(new ActionReceived($action));
         } else {
             Mail::to($to)->send(new ActionReceived($action));

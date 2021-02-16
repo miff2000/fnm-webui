@@ -27,7 +27,7 @@
         </div>
     </div>
 
-    @if(Auth::user()->admin)
+    @if (Auth::user()->admin)
     <!-- Quick Ban -->
     <div class="row">
         <div class="col-md-5 col-xs-12 col-sm-6">
@@ -80,7 +80,7 @@
                         <i id="overview-panel-loader" class="fa fa-spinner fa-pulse pull-right hidden"></i>
                     </h3>
                 </div>
-                @if(count($dcs) == 0)
+                @if (count($dcs) == 0)
                 <br>
                 <p><center>No DCs configured</center></p>
                 @else
@@ -93,15 +93,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                            @foreach($dcs as $dc)
+                            @foreach ($dcs as $dc)
                             <tr>
                                 <td><a href="{{ route('dc.show', $dc) }}">{{ $dc->name }}</a>     @if ($dc->license()['licensed_bandwidth'] === 0 || $dc->license()['expiration_date_carbon'] < \Carbon\Carbon::now()) &nbsp; <i class="fa fa-exclamation-triangle text-warning" data-toggle="tooltip" data-placement="right" title="This instance is not licensed!"></i> @endif</td>
-                                @if($dc->banStatus())
+                                @if ($dc->banStatus())
                                 <td class="text-success" id="{{$dc->id}}_bans_enabled"><i class="fa fa-check" aria-hidden="true"></i></td>
                                 @else
                                 <td class="text-danger" id="{{$dc->id}}_bans_enabled"><i class="fa fa-times" aria-hidden="true"></i></td>
                                 @endif
-                                @if($dc->unbanStatus())
+                                @if ($dc->unbanStatus())
                                 <td class="text-success" id="{{$dc->id}}_unbans_enabled"><i class="fa fa-check" aria-hidden="true"></i></td>
                                 @else
                                 <td class="text-danger" id="{{$dc->id}}_unbans_enabled"><i class="fa fa-times" aria-hidden="true"></i></td>
@@ -122,7 +122,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($dcs as $dc)
+                        @foreach ($dcs as $dc)
                         <tr>
                             <td><a href="{{ route('dc.show', $dc) }}">{{ $dc->name }}</a></td>
                             <td id="{{$dc->id}}_in_mbps">{{ round($dc->totalTraffic()['in_mbps']) }} {{ $dc->totalTraffic()['in_mbps_suffix'] }}</td>
@@ -148,7 +148,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($dcs as $dc)
+                        @foreach ($dcs as $dc)
                         <tr>
                             <td><a href="{{ route('dc.show', $dc) }}">{{ $dc->name }}</a></td>
                             <td>{{ count($dc->getBlackholes()) }}</td>
@@ -169,7 +169,7 @@
                         <i id="network-panel-loader" class="fa fa-spinner fa-pulse pull-right hidden"></i>
                     </h3>
                 </div>
-                @if(count($dcs) == 0)
+                @if (count($dcs) == 0)
                 <br>
                 <p><center>No DCs configured</center></p>
                 @else
@@ -183,7 +183,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($hostTraffic->take(12) as $h)
+                        @foreach ($hostTraffic->take(12) as $h)
                         <tr>
                             <td><a href="{{ route('ip.find') }}?q={{ urlencode($h['host']) }}">{{ $h['host'] }}</a></td>
                             <td>{{ $h['incoming_packets'] }}</td>
@@ -214,10 +214,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @if(count($blackholes) == 0)
+                        @if (count($blackholes) == 0)
                         <tr><td colspan="3"><center>No banned IPs</center></td></tr>
                         @else
-                            @foreach($blackholes as $b)
+                            @foreach ($blackholes as $b)
                             <tr>
                                 <td><strong><a href="{{ route('action.index',['uuid' => $b['uuid']]) }}">{{ $b['ip'] }}</a></strong></td>
                                 <td><strong><a href="{{ route('dc.show', $b['dc_id']) }}">{{ $b['dc_name'] }}</a></strong></td>
@@ -238,13 +238,13 @@
             <div class="panel panel-default panel-100">
                 <div class="panel-heading"><h3 class="panel-title">Recent Actions</h3></div>
                 <table class="table table-striped">
-                    @if(count($actions) == 0)
+                    @if (count($actions) == 0)
                     @else
-                        @foreach($actions as $i)
+                        @foreach ($actions as $i)
                         <tr>
                             <td>{{ $i->created_at }}</td>
                             <td><a href="{{ route('dc.show', $i->dc)}}">{{ $i->dc->name }}</a></td>
-                            @if($i->attack_detection_source == "manual")
+                            @if ($i->attack_detection_source == "manual")
                                 <td>Manually {{ $i->action }}ned {{ $i->ip }}</td>
                             @else
                                 <td>{{ ucfirst($i->action) }}ned {{ $i->ip }} at {{ $i->attack_peak_power }} pps</td>

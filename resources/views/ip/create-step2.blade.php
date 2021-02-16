@@ -54,7 +54,7 @@ Create IP Range
                         <div class="form-group{{ $errors->has('hostgroup_id') ? ' has-error' : '' }}">
                             <label for="hostgroup_id" class="control-label">Host Group:</label>
                             <select name="hostgroup_id" id="hostgroup_id" class="form-control">
-                                @foreach($dc->hostgroups as $hg)
+                                @foreach ($dc->hostgroups as $hg)
                                 <option value="{{ $hg->id }}" {{ old('hostgroup_id')==$hg->id ? ' selected' : '' }}>{{ $hg->fullname() }}</option>
                                 @endforeach
                             </select>

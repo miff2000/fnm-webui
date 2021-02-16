@@ -13,7 +13,7 @@ IP Management
             <h2 class="title">IP Management</h2>
         </div>
         <div class="col-md-6 text-right">
-            @if(Auth::user()->admin)<a href="{{ route('ip.create') }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp; Add IP Range</a>@endif
+            @if (Auth::user()->admin)<a href="{{ route('ip.create') }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp; Add IP Range</a>@endif
         </div>
     </div>
 
@@ -48,10 +48,10 @@ IP Management
                     </tr>
                 </thead>
                 <tbody>
-                    @if(count($ips) == 0)
+                    @if (count($ips) == 0)
                     <tr><td colspan="6">No IP ranges configured. &nbsp; <a href="{{ route('ip.create') }}">Add one?</a></td></tr>
                     @else
-                        @foreach($ips as $ip)
+                        @foreach ($ips as $ip)
                             <tr>
                                 <td><strong><a href="{{ route('ip.show', $ip) }}">{{ $ip->id }}</a></strong></td>
                                 <td>
@@ -63,7 +63,7 @@ IP Management
                                 <td>{{ $ip->description ? $ip->description : 'None set'}}</td>
                                 <td class="text-right">
                                     <!-- <a href="{{ route('ip.show', $ip) }}" class="btn btn-xs btn-default"><i class="fa fa-search" aria-hidden="true"></i> &nbsp;View</a> -->
-                                    @if(Auth::user()->admin)&nbsp;<a href="{{ route('ip.edit', $ip) }}" class="btn btn-xs btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp;Edit</a>@endif
+                                    @if (Auth::user()->admin)&nbsp;<a href="{{ route('ip.edit', $ip) }}" class="btn btn-xs btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp;Edit</a>@endif
                                 </td>
                             </tr>
                         @endforeach

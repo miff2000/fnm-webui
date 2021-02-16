@@ -28,7 +28,7 @@ Create IP Range
                 </div>
                 <div class="panel-body">
                     <br>
-                    @foreach(App\DC::where('active', 1)->get() as $dc)
+                    @foreach (App\DC::where('active', 1)->get() as $dc)
                         <div class="col-md-2">
                             <a href="?dc={{ $dc->id }}" data-toggle="tooltip" data-placement="top" title="{{ $dc->name }}">
                                 <div class="well text-center dc-select-box">

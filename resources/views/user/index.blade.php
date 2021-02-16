@@ -43,7 +43,7 @@ User Management
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($users as $user)
+                    @foreach ($users as $user)
                         <tr>
                             <td><strong>{{ $user->id }}</strong></td>
                             <td>{{ $user->name }}</td>

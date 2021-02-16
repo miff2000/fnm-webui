@@ -14,8 +14,8 @@ Manage Host Group
         </div>
         <div class="col-md-6 text-right">
             <a href="{{ route('hostgroup.index') }}" class="btn btn-link">&larr; All Host Groups</a>&nbsp;
-            @if($hg->description)<a href="#" class="btn btn-md btn-danger" data-toggle="hoverpopover" data-placement="left" title="<strong>Host Group Description</strong>" data-content="{!! nl2br($hg->description) !!}"><i class="fa fa-sticky-note"></i> &nbsp; Notes</a>&nbsp;@endif
-            @if(Auth::user()->admin)<a href="{{ route('hostgroup.edit', $hg) }}" class="btn btn-default"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp; Edit</a>@endif
+            @if ($hg->description)<a href="#" class="btn btn-md btn-danger" data-toggle="hoverpopover" data-placement="left" title="<strong>Host Group Description</strong>" data-content="{!! nl2br($hg->description) !!}"><i class="fa fa-sticky-note"></i> &nbsp; Notes</a>&nbsp;@endif
+            @if (Auth::user()->admin)<a href="{{ route('hostgroup.edit', $hg) }}" class="btn btn-default"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp; Edit</a>@endif
         </div>
     </div>
 
@@ -96,7 +96,7 @@ Manage Host Group
                         <strong>IP Ranges</strong>&nbsp; ({{ $hg->ips->count() }})
                     </div>
                     <div class="pull-right">
-                        @if(Auth::user()->admin)<a href="{{ route('ip.create') }}?dc={{ $hg->dc->id }}" class="btn btn-xs btn-success"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Add IP Range</a>@endif
+                        @if (Auth::user()->admin)<a href="{{ route('ip.create') }}?dc={{ $hg->dc->id }}" class="btn btn-xs btn-success"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp;Add IP Range</a>@endif
                     </div>
                     <div class="clearfix"></div>
                 </div>
@@ -111,10 +111,10 @@ Manage Host Group
                         </tr>
                     </thead>
                     <tbody>
-                        @if(count($hg->ips) == 0)
+                        @if (count($hg->ips) == 0)
                         <tr><td colspan="6">No IP ranges configured. &nbsp; <a href="{{ route('ip.create') }}">Add one?</a></td></tr>
                         @else
-                            @foreach($ips as $ip)
+                            @foreach ($ips as $ip)
                                 <tr>
                                     <td><strong><a href="{{ route('ip.show', $ip) }}">{{ $ip->id }}</a></strong></td>
                                     <td><a href="{{ route('dc.show', $ip->dc) }}">{{ $ip->dc->name }}</a></td>
@@ -125,7 +125,7 @@ Manage Host Group
                                     </td -->
                                 </tr>
                             @endforeach
-                            @if(count($hg->ips) > 20)
+                            @if (count($hg->ips) > 20)
                                 <tr>
                                     <td colspan="4" class="text-center">{{ $ips->links() }}</td>
                                 </tr>

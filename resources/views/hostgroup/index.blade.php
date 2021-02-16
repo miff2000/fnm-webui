@@ -13,7 +13,7 @@ Host Group Management
             <h2 class="title">Host Group Management</h2>
         </div>
         <div class="col-md-6 text-right">
-            @if(Auth::user()->admin)<a href="{{ route('hostgroup.create') }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp; Add Host Group</a>@endif
+            @if (Auth::user()->admin)<a href="{{ route('hostgroup.create') }}" class="btn btn-success"><i class="fa fa-plus" aria-hidden="true"></i> &nbsp; Add Host Group</a>@endif
         </div>
     </div>
 
@@ -48,10 +48,10 @@ Host Group Management
                     </tr>
                 </thead>
                 <tbody>
-                    @if(count($hgs) == 0)
+                    @if (count($hgs) == 0)
                     <tr><td colspan="6">No host groups configured. &nbsp; <a href="{{ route('hostgroup.create') }}">Add one?</a></td></tr>
                     @else
-                        @foreach($hgs as $hg)
+                        @foreach ($hgs as $hg)
                             <tr>
                                 <td><strong><a href="{{ route('hostgroup.show', $hg) }}">{{ $hg->id }}</a></strong></td>
                                 <td>
@@ -70,7 +70,7 @@ Host Group Management
                                 </td>
                                 <td class="text-right">
                                     <a href="{{ route('hostgroup.show', $hg) }}" class="btn btn-xs btn-default"><i class="fa fa-search" aria-hidden="true"></i> View</a>&nbsp;
-                                    @if(Auth::user()->admin)<a href="{{ route('hostgroup.edit', $hg) }}" class="btn btn-xs btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>@endif
+                                    @if (Auth::user()->admin)<a href="{{ route('hostgroup.edit', $hg) }}" class="btn btn-xs btn-info"><i class="fa fa-pencil" aria-hidden="true"></i> Edit</a>@endif
                                 </td>
                             </tr>
                         @endforeach

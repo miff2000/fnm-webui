@@ -15,7 +15,7 @@ Edit Host Group
         <div class="col-md-6 text-right">
             <a href="{{ route('hostgroup.index') }}" class="btn btn-link">&larr; All Host Groups</a>&nbsp;
             <a href="{{ route('hostgroup.show', $hg) }}" class="btn btn-default"><i class="fa fa-search" aria-hidden="true"></i> &nbsp; View</a>&nbsp;
-            @if(Auth::user()->admin)
+            @if (Auth::user()->admin)
             <a href="{{ route('hostgroup.delete', $hg) }}" class="btn btn-primary loading" onclick="return confirm('*** Are you sure you want to delete this Host Group? ***\n\nThis is a cascading action and will also delete the IP ranges owned by this Host Group.\n\nOnce deleted, those IPs will no longer be monitored by FNM, and therefore won\'t be banned if attacked.');"><i class="fa fa-trash" aria-hidden="true"></i> &nbsp; <strong>Delete</strong></a>
             @endif
         </div>
@@ -59,7 +59,7 @@ Edit Host Group
                         <div class="form-group{{ $errors->has('dc_id') ? ' has-error' : '' }}">
                             <label for="dc_id" class="control-label">FastNetMon Instance: <small class="text-muted"> &nbsp; (cannot be changed)</small></label>
                             <select name="dc_id" id="dc_id" class="form-control" onchange="return changeDC();" disabled>
-                                @foreach(App\DC::where('active', 1)->get() as $dc)
+                                @foreach (App\DC::where('active', 1)->get() as $dc)
                                 <option value="{{ $dc->id }}" {{ old('dc_id', $hg->dc->id)==$dc->id ? ' selected' : '' }}>{{ $dc->name }}</option>
                                 @endforeach
                             </select>

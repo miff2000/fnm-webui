@@ -18,14 +18,15 @@ class ActionController extends Controller
         $this->middleware('auth');
     }
 
-    public function index() {
-        if(isset($_GET['ip']) && !is_null($_GET['ip']) && !empty($_GET['ip'])) {
+    public function index()
+    {
+        if (isset($_GET['ip']) && !is_null($_GET['ip']) && !empty($_GET['ip'])) {
             $actions = Actions::orderBy('id', 'desc')->where('ip', $_GET['ip'])->paginate(20);
             $filtered = true;
-        } elseif(isset($_GET['dc']) && !is_null($_GET['dc']) && !empty($_GET['dc']) && is_numeric($_GET['dc'])) {
+        } elseif (isset($_GET['dc']) && !is_null($_GET['dc']) && !empty($_GET['dc']) && is_numeric($_GET['dc'])) {
             $actions = Actions::orderBy('id', 'desc')->where('dc_id', $_GET['dc'])->paginate(20);
             $filtered = true;
-        } elseif(isset($_GET['uuid']) && !is_null($_GET['uuid']) && !empty($_GET['uuid'])) {
+        } elseif (isset($_GET['uuid']) && !is_null($_GET['uuid']) && !empty($_GET['uuid'])) {
             $actions = Actions::orderBy('id', 'desc')->where('uuid', $_GET['uuid'])->paginate(20);
             $filtered = true;
         } else {
@@ -35,14 +36,19 @@ class ActionController extends Controller
         return view('action.index')->with('actions', $actions)->with('filtered', $filtered);
     }
 
-    public function show(Actions $action) {
-        $similar = Actions::where([
+    public function show(Actions $action)
+    {
+        $similar = Actions::where(
+            [
                 ['uuid', '=', $action->uuid],
                 ['id', "<>", $action->id],
-            ])->orWhere([
+            ]
+        )->orWhere(
+            [
                 ['ip', '=', $action->ip],
                 ['id', "<>", $action->id],
-            ])->orderBy('id', 'desc')->take(6)->get();
+                ]
+        )->orderBy('id', 'desc')->take(6)->get();
         return view('action.show')->with('action', $action)->with('similar', $similar);
     }
 }

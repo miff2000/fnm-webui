@@ -47,10 +47,10 @@ Action History
                     </tr>
                 </thead>
                 <tbody>
-                    @if(count($actions) == 0)
+                    @if (count($actions) == 0)
                     <tr><td colspan="8">No actions logged!</td></tr>
                     @else
-                        @foreach($actions as $action)
+                        @foreach ($actions as $action)
                             <tr>
                                 <td><strong><a href="{{ route('action.show', $action) }}">{{ $action->created_at }}</a></strong></td>
                                 <td>{{ $action->action }}</td>

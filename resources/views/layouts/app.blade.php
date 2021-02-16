@@ -62,14 +62,14 @@
                       <a href="#" lass="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="fa fa-hospital-o" aria-hidden="true"></i> &nbsp; DCs &nbsp;<span class="caret"></span></a>
 
                       <ul class="dropdown-menu">
-                          @foreach(App\DC::where('active', 1)->take(5)->get() as $navDC)
+                          @foreach (App\DC::where('active', 1)->take(5)->get() as $navDC)
                           <li><a href="{{ route('dc.show', [$navDC]) }}">{{ $navDC->name }}</a></li>
                           @endforeach
-                          @if(App\DC::where('active', 1)->count() > 5)
+                          @if (App\DC::where('active', 1)->count() > 5)
                           <li role="separator" class="divider"></li>
                           <li><a href="{{ route('dc.index') }}"><strong>View all &rarr;</strong></a></li>
                           @endif
-                          @if(Auth::user()->admin)
+                          @if (Auth::user()->admin)
                               <li role="separator" class="divider"></li>
                               <li class="dropdown-header">Admin Actions</li>
                               <li><a href="{{ route('dc.index') }}">Manage Datacenters</a></li>
@@ -84,7 +84,7 @@
                       <ul class="dropdown-menu">
                           <li><a href="{{ route('hostgroup.index') }}">View Hostgroups</a></li>
                           <li><a href="{{ route('ip.index') }}">View IPs</a></li>
-                          @if(Auth::user()->admin)
+                          @if (Auth::user()->admin)
                               <li role="separator" class="divider"></li>
                               <li class="dropdown-header">Admin Actions</li>
                               <li><a href="{{ route('hostgroup.create') }}">Create Hostgroup</a></li>
@@ -95,7 +95,7 @@
 
                   <li><a href="{{ route('action.index') }}"><i class="fa fa-bullhorn" aria-hidden="true"></i> &nbsp; Actions</a></li>
 
-                  @if(Auth::user()->admin)
+                  @if (Auth::user()->admin)
                   <li><a href="{{ route('users.index') }}"><i class="fa fa-users" aria-hidden="true"></i> &nbsp; Users</a></li>
                   @endif
               </ul>

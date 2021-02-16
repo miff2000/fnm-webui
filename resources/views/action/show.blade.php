@@ -14,7 +14,7 @@ View Action - {{$action->uuid}}
         </div>
         <div class="col-md-6 text-right">
             <a href="{{ route('action.index') }}" class="btn btn-link">&larr; All Actions</a>
-            @if(!is_null($action->raw))&nbsp;<a href="#" class="btn btn-md btn-danger" data-toggle="modal" data-target=".raw_json_modal"><i class="fa fa-file-text"></i> &nbsp; Raw JSON</a>@endif
+            @if (!is_null($action->raw))&nbsp;<a href="#" class="btn btn-md btn-danger" data-toggle="modal" data-target=".raw_json_modal"><i class="fa fa-file-text"></i> &nbsp; Raw JSON</a>@endif
         </div>
     </div>
 
@@ -149,14 +149,14 @@ View Action - {{$action->uuid}}
                             <th></th>
                     </thead>
                     <tbody>
-                        @if(count($similar) == 0)
+                        @if (count($similar) == 0)
                         <tr>
                             <td colspan="6" class="text-center">
                                 No similar actions found
                             </td>
                         </tr>
                         @else
-                            @foreach($similar as $s)
+                            @foreach ($similar as $s)
                             <tr>
                                 <td>{{ $s->created_at }}</td>
                                 <td><span class="label {{$s->action == 'ban' ? 'label-primary' : 'label-success'}}">{{ strtoupper($s->action) }}</span></td>
@@ -181,14 +181,14 @@ View Action - {{$action->uuid}}
 
     <br class="clear">
 
-    @if(isset($action->packet_dump) && !is_null($action->packet_dump) && !empty($action->packet_dump))
+    @if (isset($action->packet_dump) && !is_null($action->packet_dump) && !empty($action->packet_dump))
     <div class="row">
         <div class="col-md-12">
             <div class="panel panel-default">
                 <div class="panel-heading"><h3 class="panel-title"><strong>Packet Dump</strong></h3></div>
                 <div class="panel-body">
                     <pre>
-@foreach(json_decode($action->packet_dump, true) as $packet){{$packet}}
+@foreach (json_decode($action->packet_dump, true) as $packet){{$packet}}
 @endforeach
                     </pre>
                 </div>
@@ -202,7 +202,7 @@ View Action - {{$action->uuid}}
 
 
 <!-- MODALS -->
-@if(!is_null($action->raw))
+@if (!is_null($action->raw))
 <div class="modal fade raw_json_modal" tabindex="-1" role="dialog" aria-labelledby="raw_json_modal">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">

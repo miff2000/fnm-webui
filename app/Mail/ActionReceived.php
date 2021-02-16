@@ -35,17 +35,19 @@ class ActionReceived extends Mailable
 
         $subject = "[FNM] Action: ".$this->action->ip ." ". $this->action->action."ned at " . $this->action->attack_total_incoming_pps . " pps (UUID: ".$this->action->uuid.")";
         // Attach a packet dump if we have one...
-        if(isset($this->action->packet_dump) && !is_null($this->action->packet_dump)) {
+        if (isset($this->action->packet_dump) && !is_null($this->action->packet_dump)) {
             $packets = "";
             $dump = json_decode($this->action->packet_dump, true);
-            foreach($dump as $d) {
+            foreach ($dump as $d) {
                 $packets = $packets."\r\n".$d;
             }
             return $this->subject($subject)
-                        ->view('emails.action-received')
-                        ->attachData($packets, $this->action->uuid.'-'.time().'.pcap', [
+                ->view('emails.action-received')
+                ->attachData(
+                    $packets, $this->action->uuid.'-'.time().'.pcap', [
                             'mime' => 'text/plain',
-                        ]);
+                            ]
+                );
         }
 
         // Otherwise, just send a plain ol' email

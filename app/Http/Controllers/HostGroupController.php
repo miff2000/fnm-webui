@@ -9,7 +9,8 @@ use App\HostGroup;
 class HostGroupController extends Controller
 {
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->middleware('auth');
         $this->middleware('admin', ['except' => ['index','show']]);
     }
@@ -19,17 +20,22 @@ class HostGroupController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-     public function index() {
-         if(isset($_GET['dc']) && is_numeric($_GET['dc'])) {
-             $filtered = true;
-             $dc = DC::findOrFail($_GET['dc']);
-             $hostgroups = HostGroup::with('dc')->whereHas('dc', function($q) use ($dc) { $q->where('id', $dc->id); })->get();
-         } else {
-             $filtered = false;
-             $hostgroups = HostGroup::all();
-         }
-         return view('hostgroup.index')->with('hgs', $hostgroups)->with('filtered', $filtered);
-     }
+    public function index()
+    {
+        if (isset($_GET['dc']) && is_numeric($_GET['dc'])) {
+            $filtered = true;
+            $dc = DC::findOrFail($_GET['dc']);
+            $hostgroups = HostGroup::with('dc')->whereHas(
+                'dc', function ($q) use ($dc) {
+                    $q->where('id', $dc->id); 
+                }
+            )->get();
+        } else {
+            $filtered = false;
+            $hostgroups = HostGroup::all();
+        }
+        return view('hostgroup.index')->with('hgs', $hostgroups)->with('filtered', $filtered);
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -38,7 +44,7 @@ class HostGroupController extends Controller
      */
     public function create()
     {
-        if(\App\DC::all()->count() === 0) {
+        if (\App\DC::all()->count() === 0) {
             return redirect()->route('dc.create')->withErrors(["Cannot create Host Group until a DC has been created."]);
         }
         return view('hostgroup.create');
@@ -47,16 +53,18 @@ class HostGroupController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $validatedData = $request->validate(
+            [
             'name' => 'required|unique:host_groups,name|alpha_dash|min:3|max:200',
             'description' => 'sometimes|nullable',
             'dc_id' => 'required|numeric|exists:dc,id',
-        ]);
+            ]
+        );
         $dc = DC::findOrFail($validatedData['dc_id']);
         $validatedData['full_name'] = strtolower($dc->name) . "_" . $validatedData['name'];
 
@@ -73,7 +81,7 @@ class HostGroupController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show(HostGroup $hostgroup)
@@ -85,7 +93,7 @@ class HostGroupController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit(HostGroup $hostgroup)
@@ -96,16 +104,18 @@ class HostGroupController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int                      $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, HostGroup $hostgroup)
     {
         // Validate the input
-        $validatedData = $request->validate([
+        $validatedData = $request->validate(
+            [
             'description' => 'sometimes|nullable',
-        ]);
+            ]
+        );
 
         $hostgroup->update($validatedData);
         $hostgroup->setDescription($validatedData['description']);
@@ -115,14 +125,16 @@ class HostGroupController extends Controller
     public function updateThresholds(Request $request, HostGroup $hostgroup)
     {
         // Validate the input
-        $validatedData = $request->validate([
+        $validatedData = $request->validate(
+            [
             'enable_ban' => 'required|boolean',
             'threshold_pps' => 'required|numeric|min:0',
             'threshold_mbps' => 'required|numeric|min:0',
             'threshold_flows' => 'required|numeric|min:0',
-        ]);
+            ]
+        );
 
-        if($validatedData['enable_ban'] == true) {
+        if ($validatedData['enable_ban'] == true) {
             $validatedData['enable_ban'] = "enable";
         } else {
             $validatedData['enable_ban'] = "disable";
@@ -149,7 +161,7 @@ class HostGroupController extends Controller
 
         $response = $hostgroup->setThresholds($validatedData);
 
-        if($response->where('success', false)->count() > 0) {
+        if ($response->where('success', false)->count() > 0) {
             $errors = $response->where('success', false)->pluck('error_text_full');
             return back()->withInput()->withErrors($errors);
         }
@@ -160,7 +172,7 @@ class HostGroupController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy(HostGroup $hostgroup)

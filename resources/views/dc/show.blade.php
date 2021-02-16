@@ -14,8 +14,8 @@ Manage DC - {{$dc->name}}
         </div>
         <div class="col-md-6 text-right">
             <a href="{{ route('dc.index') }}" class="btn btn-link">&larr; All DCs</a>&nbsp;
-            @if($dc->description)<a href="#" class="btn btn-md btn-danger" data-toggle="hoverpopover" data-placement="left" title="<strong>DC Description</strong>" data-content="{!! nl2br($dc->description) !!}"><i class="fa fa-sticky-note"></i> &nbsp; Notes</a>@endif
-            @if(Auth::user()->admin) &nbsp; <a href="{{ route('dc.edit', [$dc]) }}" class="btn btn-default"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp; Edit Configuration</a>@endif
+            @if ($dc->description)<a href="#" class="btn btn-md btn-danger" data-toggle="hoverpopover" data-placement="left" title="<strong>DC Description</strong>" data-content="{!! nl2br($dc->description) !!}"><i class="fa fa-sticky-note"></i> &nbsp; Notes</a>@endif
+            @if (Auth::user()->admin) &nbsp; <a href="{{ route('dc.edit', [$dc]) }}" class="btn btn-default"><i class="fa fa-pencil" aria-hidden="true"></i> &nbsp; Edit Configuration</a>@endif
         </div>
     </div>
 
@@ -26,7 +26,7 @@ Manage DC - {{$dc->name}}
         <div class="col-md-12">
             <div class="alert alert-dismissable alert-danger">
                 <button type="button" class="close" data-dismiss="alert">&times;</button>
-                <strong>This DC is disabled.</strong> Data from this DC will not appear throughout the application. @if(Auth::user()->admin) &nbsp; <a href="{{ route('dc.edit', [$dc]) }}">Update configuration &rarr;</a>@endif
+                <strong>This DC is disabled.</strong> Data from this DC will not appear throughout the application. @if (Auth::user()->admin) &nbsp; <a href="{{ route('dc.edit', [$dc]) }}">Update configuration &rarr;</a>@endif
             </div>
         </div>
     </div>
@@ -123,7 +123,7 @@ Manage DC - {{$dc->name}}
                     </h3>
                 </div>
                 <div class="panel-body">
-                    @if(Auth::user()->admin)
+                    @if (Auth::user()->admin)
                         <p><a href="{{ route('dc.toggleban', $dc) }}" class="btn btn-block btn-default loading"><strong>{{ $dc->banStatus() ? 'Disable' : 'Enable' }}</strong> automated banning</a></p>
                         <p><a href="{{ route('dc.toggleunban', $dc) }}" class="btn btn-block btn-default loading"><strong>{{ $dc->unbanStatus() ? 'Disable' : 'Enable' }}</strong>  automated unbanning</a></p>
                         <hr>
@@ -159,10 +159,10 @@ Manage DC - {{$dc->name}}
                         </tr>
                     </thead>
                     <tbody>
-                        @if($dc->hostTraffic() == false || count($dc->hostTraffic()) == 0)
+                        @if ($dc->hostTraffic() == false || count($dc->hostTraffic()) == 0)
                         <tr><td colspan="4"><center>No traffic data received from instance</center></td></tr>
                         @else
-                            @foreach($dc->hostTraffic() as $h)
+                            @foreach ($dc->hostTraffic() as $h)
                             <tr>
                                 <td><a href="{{ route('ip.find') }}?q={{ urlencode($h['host']) }}">{{ $h['host'] }}</a></td>
                                 <td>{{ $h['incoming_packets'] }}</td>
@@ -192,10 +192,10 @@ Manage DC - {{$dc->name}}
                         </tr>
                     </thead>
                     <tbody>
-                        @if($dc->getBlackholes() == false || count($dc->getBlackholes()) == 0)
+                        @if ($dc->getBlackholes() == false || count($dc->getBlackholes()) == 0)
                         <tr><td colspan="2"><center>No banned IPs</center></td></tr>
                         @else
-                            @foreach($dc->getBlackholes() as $b)
+                            @foreach ($dc->getBlackholes() as $b)
                             <tr>
                                 <td><strong><a href="{{ route('action.index',['uuid' => $b['uuid']]) }}">{{ $b['ip'] }}</a></strong></td>
                                 <td class="text-right"><a href="{{ route('action.index',['uuid' => $b['uuid']]) }}" data-toggle="tooltip" data-placement="left" title="View attack details"><i class="fa fa-search-plus" aria-hidden="true"></i></a></td>
@@ -217,11 +217,11 @@ Manage DC - {{$dc->name}}
                 <div class="panel-heading"><h3 class="panel-title">Recent Actions</h3></div>
                 <table class="table table-striped">
                     <tbody>
-                        @foreach(\App\Actions::all()->sortByDesc('id')->where('dc_id', $dc->id)->take(10) as $i)
+                        @foreach (\App\Actions::all()->sortByDesc('id')->where('dc_id', $dc->id)->take(10) as $i)
                         <tr>
                             <td>{{ $i->created_at }}</td>
                             <td><a href="{{ route('dc.show', $i->dc)}}">{{ $i->dc->name }}</a></td>
-                            @if($i->attack_detection_source == "manual")
+                            @if ($i->attack_detection_source == "manual")
                                 <td>Manually {{ $i->action }}ned {{ $i->ip }}</td>
                             @else
                                 <td>{{ ucfirst($i->action) }}ned {{ $i->ip }} at {{ round($i->attack_peak_power / 1024, 2) }} kpps</td>
